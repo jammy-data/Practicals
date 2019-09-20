@@ -16,6 +16,7 @@ class Agent_Wolf():
         for sheep in self.sheep_all:
             dis = self.distance_between(sheep)
             if dis < min_dis:
+                
                 min_dis = dis
                 self.target=sheep
             #if dis < kill_radius:
