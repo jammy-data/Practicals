@@ -60,22 +60,23 @@ class Agent_Sheep():
             if agent != self:
                 distance = self.distance_between(agent)
                
-                # If distance is less than or equal to the neighbourhood
-                if distance <= neighbourhood:
-                    print("----------")
-                    print("agents within sharing neighbourhood")
+                # Test code to print when sharing
+                #if distance <= neighbourhood:
+                    #print("----------")
+                    #print("agents within sharing neighbourhood")
                     
                     # Sum self.store and agent.store .
-                    sum_store = self.store + agent.store
+                sum_store = self.store + agent.store
                     # Divide sum by two to calculate average.
-                    avg = sum_store / 2
+                avg = sum_store / 2
                     # self.store = average
-                    self.store = avg
+                self.store = avg
                     
                     # agent.store = average
-                    agent.store = avg
-                    print("stores are {} and {}".format(self.store, agent.store))
-                    print("sharing " + str(distance) + " " + str (avg))
+                agent.store = avg
+                    #test code to ensure grass is being shared fairly
+                    #print("stores are {} and {}".format(self.store, agent.store))
+                    #print("sharing " + str(distance) + " " + str (avg))
         
     def distance_between(self, agent):
         return (((self.x - agent.x)**2) + ((self.y - agent.y)**2))**0.5

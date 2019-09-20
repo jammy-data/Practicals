@@ -1,3 +1,6 @@
+'''https://www.geog.leeds.ac.uk/courses/computing/study/core-python-phd/'''
+
+
 import matplotlib
 import tkinter
 matplotlib.use('TkAgg')
@@ -166,8 +169,6 @@ def update(frame_number):
 #         print ("stopping condition")
 #         
 #==============================================================================
-    
-    #######################################################
 
 #identify the left and rightmost agents
 #Agents do not support indexing so this section
