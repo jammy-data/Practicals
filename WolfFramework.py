@@ -11,6 +11,7 @@ class Agent_Wolf():
     def distance_between(self, sheep):
         return (((self.x - sheep.x)**2) + ((self.y - sheep.y)**2))**0.5
     
+    #Provide a kill radius for the wolf reliant on distance
     def target_sheep(self, kill_radius):
         min_dis = kill_radius
         for sheep in self.sheep_all:
@@ -24,11 +25,13 @@ class Agent_Wolf():
                 
     def eat_sheep(self,sheep):
         
-        print("****** SHEEP EATEN!!!!!! *****")
+       
         self.sheep_eaten+=1
-        print(len(self.sheep_all))
+        #print(len(self.sheep_all))
         if self.target in self.sheep_all:
+            print("****** SHEEP EATEN!!!!!! *****")
             self.sheep_all.remove(sheep)
+            #reset the target to None to continue random movement
             self.target = None
             print("there are" , len(self.sheep_all), "sheep left")
                 

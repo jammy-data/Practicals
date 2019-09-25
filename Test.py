@@ -1,6 +1,3 @@
-'''https://www.geog.leeds.ac.uk/courses/computing/study/core-python-phd/'''
-
-
 import matplotlib
 import tkinter
 matplotlib.use('TkAgg')
@@ -189,13 +186,15 @@ def run():
     canvas.draw() #updated from canvas.show()
     #to save animation use Animation.save
 
-
-
 #create a function to kill the tkinter loop
 def kill():  
     global root
     root.destroy()
     root.quit()
+    
+def ChangeVariables():
+    print(num_of_sheep)
+    
     
     
 ##################################################################
@@ -206,33 +205,17 @@ root = tkinter.Tk()
 root.wm_title("Model")
 canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
 canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-menu_bar=tkinter.Menu(root)
-root.config(menu=menu_bar)
+
+#menu_bar=tkinter.Menu(root)
+#root.config(menu=menu_bar)
+Button1 =tkinter.Button(root, text="Submit", command = ChangeVariables)
+Button1._tkcanvas.pack()
 #create the menubar labels
-run_menu = tkinter.Menu(menu_bar)
-menu_bar.add_cascade(label="Model", menu=run_menu)
-run_menu.add_command(label="run model", command=run)
-run_menu.add_command(label="kill", command=kill)
+#run_menu = tkinter.Menu(menu_bar)
+#menu_bar.add_cascade(label="Model", menu=run_menu)
+#run_menu.add_command(label="run model", command=run)
+#run_menu.add_command(label="kill", command=kill)
+
+
 
 tkinter.mainloop() 
-
-#calculate the maximum distance
-#max_distance = distance_between(agents[1], agents[0])
-print("*"*20)
-for i in range (0,num_of_sheep):
-    for j in range (i+1 ,num_of_sheep):
-        distance = distance_between(sheep[i], sheep[j])
-        #max_distance = max(max_distance, distance)
-        print("distance between agent", i, "and", j, distance)
-        #print(max_distance)
-        
-f2 = open('dataout.csv', 'w', newline='')
-writer = csv.writer(f2, delimiter=' ')
-for row in data:
-    writer.writerow(row) # List of values.
-f2.close()
-        
-end=time.clock()
-
-print("time=",str(end-start))
-print(sheep[i])
