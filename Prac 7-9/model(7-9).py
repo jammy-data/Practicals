@@ -80,6 +80,16 @@ for row in reader: # A list of rows
     for value in row: 
         rowlist.append(value)
 f.close() 
+# Fill with random data.
+for i in (range(1,98)):
+    datarow = []
+    for j in (range(1,98)):
+        datarow.append(random.randint(0,255))
+    data.append(datarow)
+fig = matplotlib.pyplot.figure(figsize=(15, 15))
+ax = fig.add_axes([0, 0, 1, 1])    
+
+carry_on = True    
 
 # =============================================================================
 #ensuring dataset is rectangular i.e. col value for every row value
@@ -96,20 +106,6 @@ f.close()
 # =============================================================================
 
 
-
-# Fill with random data.
-for i in (range(1,98)):
-    datarow = []
-    for j in (range(1,98)):
-        datarow.append(random.randint(0,255))
-    data.append(datarow)
-
-#######################################################
-
-fig = matplotlib.pyplot.figure(figsize=(15, 15))
-ax = fig.add_axes([0, 0, 1, 1])    
-
-carry_on = True
 
 #Create the update function for the animation
 def update(frame_number):
