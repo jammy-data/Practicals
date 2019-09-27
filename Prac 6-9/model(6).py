@@ -147,8 +147,10 @@ def update(frame_number):
         
         
         
-    #######################################################
-    ## New stopping condition if all sheep have a full belly
+    ##################################################################
+    #####                STOPPING CONDITION                      #####
+    ##################################################################  
+    #If sheep have full belly model stops
     counter = 0   
     for i in range(len(sheep)):
         agent_full = sheep[i].check_agent_full() 
@@ -166,13 +168,6 @@ def update(frame_number):
 #         print ("stopping condition")
 #         
 #==============================================================================
-
-#identify the left and rightmost agents
-#Agents do not support indexing so this section
-#   cannot be executed
-#leftmostagent = min(agents, key=operator.itemgetter(0))
-#rightmostagent = max(agents, key=operator.itemgetter(0))
-
 
 def gen_function(b = [0]):
     a = 0
@@ -216,22 +211,22 @@ run_menu.add_command(label="kill", command=kill)
 
 tkinter.mainloop() 
 
-#calculate the maximum distance
-#max_distance = distance_between(agents[1], agents[0])
-print("*"*20)
-for i in range (0,num_of_sheep):
-    for j in range (i+1 ,num_of_sheep):
-        distance = distance_between(sheep[i], sheep[j])
-        #max_distance = max(max_distance, distance)
-        print("distance between agent", i, "and", j, distance)
-        #print(max_distance)
+##################################################################
+#####                DISTANCE CALC                           #####
+##################################################################  
+# =============================================================================
+# print("*"*20)
+# for i in range (0,num_of_sheep):
+#     for j in range (i+1 ,num_of_sheep):
+#         distance = distance_between(sheep[i], sheep[j])
+#         #max_distance = max(max_distance, distance)
+#         print("distance between agent", i, "and", j, distance)
+#         #print(max_distance)
+# =============================================================================
         
-f2 = open('dataout.csv', 'w', newline='')
-writer = csv.writer(f2, delimiter=' ')
-for row in data:
-    writer.writerow(row) # List of values.
-f2.close()
-        
+##################################################################
+#####                PRINT TIME TAKEN                        #####
+##################################################################  
 end=time.clock()
 
 print("time=",str(end-start))

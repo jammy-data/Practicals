@@ -1,5 +1,5 @@
 import random
-class Agent_Sheep():
+class Agent():
     def __init__(self, agent_environment, o_agents, y, x):
         self.o_agents = o_agents
 #        self.x = random.randint(0,299)
@@ -43,7 +43,7 @@ class Agent_Sheep():
     
     #function for checking if belly is full
     def check_agent_full(self):
-        if self.store > 1000:
+        if self.store > 100:
             full = 1
         else:
             full = 0
@@ -60,23 +60,22 @@ class Agent_Sheep():
             if agent != self:
                 distance = self.distance_between(agent)
                
-                # Test code to print when sharing
-                #if distance <= neighbourhood:
-                    #print("----------")
-                    #print("agents within sharing neighbourhood")
+                # If distance is less than or equal to the neighbourhood
+                if distance <= neighbourhood:
+                    print("----------")
+                    print("agents within sharing neighbourhood")
                     
                     # Sum self.store and agent.store .
-                sum_store = self.store + agent.store
+                    sum_store = self.store + agent.store
                     # Divide sum by two to calculate average.
-                avg = sum_store / 2
+                    avg = sum_store / 2
                     # self.store = average
-                self.store = avg
+                    self.store = avg
                     
                     # agent.store = average
-                agent.store = avg
-                    #test code to ensure grass is being shared fairly
-                    #print("stores are {} and {}".format(self.store, agent.store))
-                    #print("sharing " + str(distance) + " " + str (avg))
+                    agent.store = avg
+                    print("stores are {} and {}".format(self.store, agent.store))
+                    print("sharing " + str(distance) + " " + str (avg))
         
     def distance_between(self, agent):
         return (((self.x - agent.x)**2) + ((self.y - agent.y)**2))**0.5

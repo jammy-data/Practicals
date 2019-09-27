@@ -2,8 +2,16 @@ import random
 import operator
 import matplotlib.pyplot
 
+
+##################################################################
+#####                    PARAMETERS                          #####
+##################################################################
 num_of_agents = 10
 num_of_iterations = 100
+
+##################################################################
+#####                INITIALISE VARIABLES                    #####
+##################################################################
 agents = []
 data = []
 processed_data = []
@@ -35,7 +43,7 @@ for j in range(num_of_iterations):
             agents[i][0] =  (agents[i][0]+1) % 100
         else:
             agents[i][0] =  (agents[i][0]-1) % 100
-        # Check if off edge and adjust.
+        # Check if off edge, if so, set value to bounce off edge.
         if agents[i][0] < 0:
             agents[i][0] = 0
         if agents[i][1] < 0:
@@ -66,9 +74,6 @@ for j in range(num_of_iterations):
 print(agents)
 #distance = (((y1-y0)**2) + ((x1-x0)**2))**0.5
 #print("Distance equals " + str(distance))
-
-#Prac 2 ---------------------------------------------
-
 #print(max(agents, key=operator.itemgetter(1)))
 #print(max(agents, key=operator.itemgetter(0)))
 
@@ -78,9 +83,11 @@ matplotlib.pyplot.xlim(0, 99)
 for i in range (num_of_agents):
     matplotlib.pyplot.scatter(agents[i][0],agents[i][1])
 
-#identify the left and rightmost agents
-leftmostagent = min(agents, key=operator.itemgetter(0))
-rightmostagent = max(agents, key=operator.itemgetter(0))
-#matplotlib.pyplot.scatter(leftmostagent[0],leftmostagent[1], color='green')
-#matplotlib.pyplot.scatter(rightmostagent[0],rightmostagent[1], color='red')
+# =============================================================================
+# #identify the left and rightmost agents
+# leftmostagent = min(agents, key=operator.itemgetter(0))
+# rightmostagent = max(agents, key=operator.itemgetter(0))
+# #matplotlib.pyplot.scatter(leftmostagent[0],leftmostagent[1], color='green')
+# #matplotlib.pyplot.scatter(rightmostagent[0],rightmostagent[1], color='red')
+# =============================================================================
 matplotlib.pyplot.show()
