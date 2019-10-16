@@ -26,8 +26,8 @@ def distance_between(agents_row_a, agents_row_b):
 #####                    PARAMETERS                          #####
 ##################################################################
 #identify the number of agents
-num_of_sheep = 20
-num_of_wolves = 3
+num_of_sheep = 35
+num_of_wolves = 7
 neighbourhood = 20
 kill_radius = 10
 
@@ -81,10 +81,10 @@ for row in reader: # A list of rows
         rowlist.append(value)
 f.close() 
 # Fill with random data.
-for i in (range(1,200)):
+for i in (range(1,98)):
     datarow = []
-    for j in (range(1,200)):
-        datarow.append(random.randint(0,200))
+    for j in (range(1,98)):
+        datarow.append(random.randint(0,255))
     data.append(datarow)
 fig = matplotlib.pyplot.figure(figsize=(15, 15))
 ax = fig.add_axes([0, 0, 1, 1])    
@@ -119,8 +119,8 @@ def update(frame_number):
     
 
     #plot the data   
-    matplotlib.pyplot.ylim(200, 0)
-    matplotlib.pyplot.xlim(0, 200)
+    matplotlib.pyplot.ylim(299, 0)
+    matplotlib.pyplot.xlim(0, 299)
     matplotlib.pyplot.imshow(environment)
     
     ##################################################################
@@ -177,10 +177,9 @@ def gen_function(b = [0]):
 def run(): 
     
     animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames=gen_function)
+    
     canvas.draw() #updated from canvas.show()
     #to save animation use Animation.save
-animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames=gen_function)
-matplotlib.pyplot.show()
 
 
 

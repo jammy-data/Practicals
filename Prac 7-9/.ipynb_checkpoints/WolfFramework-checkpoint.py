@@ -2,8 +2,8 @@
 import random
 class Agent_Wolf():
     def __init__(self, sheep_list):
-        self.x = random.randint(0,200)
-        self.y = random.randint(0,200)
+        self.x = random.randint(0,100)
+        self.y = random.randint(0,100)
         self.sheep_eaten = 0
         self.sheep_all = sheep_list
         self.target = None
@@ -39,14 +39,14 @@ class Agent_Wolf():
         #if no sheep in sight random move
         if self.target == None:
             if random.random() < 0.5:
-                self.x = (self.x + 3) % 200
+                self.x = (self.x + 2) % 300
             else:
-                self.x = (self.x - 3) % 200
+                self.x = (self.x - 2) % 300
 
             if random.random() < 0.5:
-                self.y = (self.y + 3) % 200
+                self.y = (self.y + 2) % 300
             else:
-                self.y = (self.y - 3) % 200
+                self.y = (self.y - 2) % 300
                 
                 
                 
