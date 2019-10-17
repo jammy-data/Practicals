@@ -27,8 +27,8 @@ start = time.clock()
 
 #identify the number of agents
 
-num_of_sheep = 20
-num_of_wolves = 2
+num_of_sheep = 30
+#num_of_wolves = 0
 neighbourhood = 20
 kill_radius = 30
 
@@ -58,6 +58,39 @@ soup = bs4.BeautifulSoup(content, 'html.parser')
 td_ys = soup.find_all(attrs={"class" : "y"})
 td_xs = soup.find_all(attrs={"class" : "x"})
 
+num_of_wolves=0
+
+def run(): 
+    selected= Lb.curselection()
+    print(selected)
+    global num_of_wolves
+    if selected == (0,):
+        num_of_wolves = 0
+    if selected ==(1,):
+        num_of_wolves = 2
+    if selected ==(2,):
+        num_of_wolves = 4
+    if selected ==(3,0):
+        num_of_wolves = 10
+    else:
+        pass
+    #Create sheep with this co-ordinate data
+#separate the xy elements
+    
+    for i in range(num_of_sheep):
+        y = int(td_ys[i].text)
+        x = int(td_xs[i].text)
+        sheep.append(SheepFramework.Agent_Sheep(environment, sheep, y, x))
+
+##Create the wolves with knowledge of the sheep
+    
+    for i in range(num_of_wolves):
+        wolves.append(WolfFramework.Agent_Wolf(sheep))
+        
+    animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False)
+    canvas.draw() #updated from canvas.show()
+    #to save animation use Animation.save
+
 #separate the xy elements into y and x co-ordinates
 
 for i in range(num_of_sheep):
@@ -68,18 +101,7 @@ for i in range(num_of_sheep):
 #####                CREATE AGENTS                           #####
 ################################################################## 
     
-#Create sheep with this co-ordinate data
-#separate the xy elements
-    
-for i in range(num_of_sheep):
-    y = int(td_ys[i].text)
-    x = int(td_xs[i].text)
-    sheep.append(SheepFramework.Agent_Sheep(environment, sheep, y, x))
 
-##Create the wolves with knowledge of the sheep
-    
-for i in range(num_of_wolves):
-    wolves.append(WolfFramework.Agent_Wolf(sheep))
     
 ##################################################################
 #####                GETTING THE ENVIRONMENT                 #####
@@ -204,11 +226,10 @@ def update(frame_number):
 
 #create a function to run the animation, which is called in tkinter
         
-def run(): 
+
+        
+        
     
-    animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False)
-    canvas.draw() #updated from canvas.show()
-    #to save animation use Animation.save
     
 ## Create a gen_function to dictate the conditions of the animation stopping    
 def gen_function(b = [0]):
@@ -223,7 +244,10 @@ animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames
 #matplotlib.pyplot.show()
 
 
-
+def Stop():
+    global root
+    root.quit()
+    print('Model terminated')
 
 #create a function to kill the tkinter loop
 def kill():  
@@ -231,45 +255,32 @@ def kill():
     root.destroy()
     root.quit()
     
-    
-##################################################################
-#####                INITIATE TKINTER                        #####
-##################################################################     
-root = tkinter.Tk()
 
+#tkinter time
+root = tkinter.Tk()    
 root.wm_title("Model")
 canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
 canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+Lb = Listbox(root)
+Lb.insert(1, 'No Wolves')
+Lb.insert(2, 'Wolven espionage')
+Lb.insert(3, 'fifty/fifty')
+Lb.insert(4, 'onslaught')
+Lb.pack()
 menu_bar=tkinter.Menu(root)
 root.config(menu=menu_bar)
 #create the menubar labels
 run_menu = tkinter.Menu(menu_bar)
 menu_bar.add_cascade(label="Model", menu=run_menu)
 run_menu.add_command(label="run model", command=run)
+run_menu.add_command(label='Stop model', command=Stop)
 run_menu.add_command(label="kill", command=kill)
 
 tkinter.mainloop() 
 
-##################################################################
-#####                DISTANCE CALC                           #####
-##################################################################  
-# =============================================================================
-## set up the function to calculate point distance
-# def distance_between(agents_row_a, agents_row_b):
-#    return (((agents_row_a.x - agents_row_b.x)**2) + ((agents_row_a.y - agents_row_b.y)**2))**0.5
-# print("*"*20)
-# for i in range (0,num_of_sheep):
-#     for j in range (i+1 ,num_of_sheep):
-#         distance = distance_between(sheep[i], sheep[j])
-#         #max_distance = max(max_distance, distance)
-#         print("distance between agent", i, "and", j, distance)
-#         #print(max_distance)
-# =============================================================================
-        
-##################################################################
-#####                PRINT TIME TAKEN                        #####
-##################################################################  
-end=time.clock()
 
-print("time=",str(end-start))
-print(sheep[i])
+
+
+
+
+
