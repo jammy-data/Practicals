@@ -25,10 +25,10 @@ start = time.clock()
 #####                    PARAMETERS                          #####
 ##################################################################
 
-#identify the number of agents
+#identify the number of each parameter which will alter the way the model functions
 
 num_of_sheep = 30
-#num_of_wolves = 0
+#num_of_wolves = 0 # un-block this to override tkinter options
 neighbourhood = 20
 kill_radius = 30
 
@@ -47,22 +47,31 @@ wolves = []
 ####        extract and parse the xy data from webpage       #####
 ##################################################################
 
-#Retrieve data from a html
+## Here I am retrieving data from a html site, and reading it in to the model ##
 
+# the r variable here retrieves the website. content variable retrieves
+# the text from the website.
 r = requests.get('http://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
 content = r.text
+
+## Plug-in beautifulsoup (see import bs4) was used to parse the webpage.
 soup = bs4.BeautifulSoup(content, 'html.parser')
 
-#Use beautifulsoup to parse the webpage and extract the x and y values
-
+#separate the xy elements
 td_ys = soup.find_all(attrs={"class" : "y"})
 td_xs = soup.find_all(attrs={"class" : "x"})
 
 num_of_wolves=0
 
+## the run function describes what will happen in tkinter when the run option
+## is selected.
 def run(): 
-    selected= Lb.curselection()
-    print(selected)
+    selected= Lb.curselection() # find which list option has been selected
+    
+    #print(selected) TEST to see what the output is
+    
+    #based on the selection, I want to change the number of wolves in the model
+    
     global num_of_wolves
     if selected == (0,):
         num_of_wolves = 0
@@ -70,13 +79,16 @@ def run():
         num_of_wolves = 2
     if selected ==(2,):
         num_of_wolves = 4
-    if selected ==(3,0):
+    if selected ==(3,):
         num_of_wolves = 10
     else:
         pass
-    #Create sheep with this co-ordinate data
-#separate the xy elements
+ 
+
     
+    ##################################################################
+    #####                CREATE AGENTS                           #####
+    ##################################################################
     for i in range(num_of_sheep):
         y = int(td_ys[i].text)
         x = int(td_xs[i].text)
@@ -91,15 +103,10 @@ def run():
     canvas.draw() #updated from canvas.show()
     #to save animation use Animation.save
 
-#separate the xy elements into y and x co-ordinates
 
-for i in range(num_of_sheep):
-    y = int(td_ys[i].text)
-    x = int(td_xs[i].text)
+
     
-##################################################################
-#####                CREATE AGENTS                           #####
-################################################################## 
+ 
     
 
     
@@ -261,12 +268,15 @@ root = tkinter.Tk()
 root.wm_title("Model")
 canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
 canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+
 Lb = Listbox(root)
 Lb.insert(1, 'No Wolves')
 Lb.insert(2, 'Wolven espionage')
 Lb.insert(3, 'fifty/fifty')
 Lb.insert(4, 'onslaught')
-Lb.pack()
+Lb.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
+label= Label(root, text='Choose your model variant', justify=LEFT, foreground='blue', background= 'yellow')
+label.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
 menu_bar=tkinter.Menu(root)
 root.config(menu=menu_bar)
 #create the menubar labels
