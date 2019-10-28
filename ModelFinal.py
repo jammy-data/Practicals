@@ -235,20 +235,22 @@ def kill():
 ##################################################################
 #####                INITIATE TKINTER                        #####
 ##################################################################     
-root = tkinter.Tk()
-
-root.wm_title("Model")
-canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
-canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-menu_bar=tkinter.Menu(root)
-root.config(menu=menu_bar)
-#create the menubar labels
-run_menu = tkinter.Menu(menu_bar)
-menu_bar.add_cascade(label="Model", menu=run_menu)
-run_menu.add_command(label="run model", command=run)
-run_menu.add_command(label="kill", command=kill)
-
-tkinter.mainloop() 
+# =============================================================================
+# root = tkinter.Tk()
+# 
+# root.wm_title("Model")
+# canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
+# canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+# menu_bar=tkinter.Menu(root)
+# root.config(menu=menu_bar)
+# #create the menubar labels
+# run_menu = tkinter.Menu(menu_bar)
+# menu_bar.add_cascade(label="Model", menu=run_menu)
+# run_menu.add_command(label="run model", command=run)
+# run_menu.add_command(label="kill", command=kill)
+# 
+# tkinter.mainloop() 
+# =============================================================================
 
 ##################################################################
 #####                DISTANCE CALC                           #####
@@ -272,4 +274,3 @@ tkinter.mainloop()
 end=time.clock()
 
 print("time=",str(end-start))
-print(sheep[i])

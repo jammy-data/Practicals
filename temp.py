@@ -94,11 +94,11 @@ def run():
         x = int(td_xs[i].text)
         sheep.append(SheepFramework.Agent_Sheep(environment, sheep, y, x))
 
-##Create the wolves with knowledge of the sheep
+## Create the wolves with knowledge of the sheep
     
     for i in range(num_of_wolves):
         wolves.append(WolfFramework.Agent_Wolf(sheep))
-        
+    #animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames= gen_function) #unblock to create stopping conditions    
     animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False)
     canvas.draw() #updated from canvas.show()
     #to save animation use Animation.save
@@ -121,7 +121,7 @@ reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
 for row in reader: # A list of rows
     rowlist = []
     
-    #append the environment in a loop
+    #append the environment to supply a value given from the in.txt file
     
     environment.append(rowlist)
     for value in row: 
@@ -158,7 +158,10 @@ carry_on = True
 
 
 
-#Create the update function for the animation
+## Create the update function for the animation ##
+
+# This will dictate the number of times the model will run until it stops. here
+# you can decide a stopping condition if you wish.
         
 def update(frame_number):
     
@@ -171,7 +174,7 @@ def update(frame_number):
     
     
 
-    #plot the data 
+    #plot the axis along with the plot boundaries.
     
     matplotlib.pyplot.ylim(125, 0)
     matplotlib.pyplot.xlim(0, 125)
@@ -181,7 +184,9 @@ def update(frame_number):
     #####                AGENT ACTION LOOP                       #####
     ################################################################## 
     
-    ## Initiate the action loop for all sheep
+    ## Initiate the action loop for all sheep.
+    # The functions I have defined here are for the sheep to move, eat the
+    #environment and share food with their neighbours.
     
     for i in range(len(sheep)):
         sheep[i].move()
@@ -193,6 +198,8 @@ def update(frame_number):
         matplotlib.pyplot.scatter(sheep[i].x,sheep[i].y, color='white', edgecolor='black', label='sheep')
     
     ## initiate the loop for all wolves
+    # The functions I have defined here are for the wolves to target sheep,
+    # move around and eat sheep on the same grid co-ordinate.
     
     for i in range(len(wolves)):
         wolves[i].target_sheep(kill_radius)
@@ -219,6 +226,8 @@ def update(frame_number):
     
     ## If sheep have full belly model stops
     
+    # set the counter to 0. We want the counter to reach 1 when the sheep
+    # are all full, and thus stop the model.
     counter = 0   
     for i in range(len(sheep)):
         agent_full = sheep[i].check_agent_full() 
@@ -229,11 +238,6 @@ def update(frame_number):
     if counter == (len(sheep)):
         carry_on = False
         print ("stopping condition")
-        
-
-#create a function to run the animation, which is called in tkinter
-        
-
         
         
     
@@ -246,24 +250,20 @@ def gen_function(b = [0]):
         yield a			# Returns control and waits next call.
         a = a + 1
         
-animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames= gen_function)
-# animation.save("FinalModel.gif") # this will save the animation
-#matplotlib.pyplot.show()
-
 
 def Stop():
     global root
     root.quit()
     print('Model terminated')
 
-#create a function to kill the tkinter loop
+#create a function to kill the tkinter loop and close the window.
 def kill():  
     global root
     root.destroy()
     root.quit()
     
 
-#tkinter time
+## tkinter 
 root = tkinter.Tk()    
 root.wm_title("Model")
 canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
@@ -277,14 +277,13 @@ Lb.insert(4, 'onslaught')
 Lb.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
 label= Label(root, text='Choose your model variant', justify=LEFT, foreground='blue', background= 'yellow')
 label.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
-menu_bar=tkinter.Menu(root)
-root.config(menu=menu_bar)
-#create the menubar labels
-run_menu = tkinter.Menu(menu_bar)
-menu_bar.add_cascade(label="Model", menu=run_menu)
-run_menu.add_command(label="run model", command=run)
-run_menu.add_command(label='Stop model', command=Stop)
-run_menu.add_command(label="kill", command=kill)
+
+run_button= Button(root, text="Run Model", command=run)
+quit_button= Button(root, text="Stop Model", command=kill)
+run_button.configure(bg='green')
+quit_button.configure(bg='red')
+quit_button.pack(side=tkinter.BOTTOM)
+run_button.pack(side=tkinter.BOTTOM)
 
 tkinter.mainloop() 
 
