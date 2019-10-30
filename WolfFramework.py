@@ -1,28 +1,34 @@
 '''PROJECT WOLF'''
+
 import random
+
+## Similar to the sheep agent, the wolf class was created
 class Agent_Wolf():
     def __init__(self, sheep_list):
         self.x = random.randint(0,100)
         self.y = random.randint(0,100)
         self.sheep_eaten = 0
-        self.sheep_all = sheep_list
-        self.target = None
+        self.sheep_all = sheep_list #give the wolf knowledge of all sheep
+        self.target = None #Append the wolf with no initial target
     
+    # Calculate the distance between the wolves and sheep, and this distance
+    # can later be used to establish a 'kill radius'.
     def distance_between(self, sheep):
         return (((self.x - sheep.x)**2) + ((self.y - sheep.y)**2))**0.5
     
-    #Provide a kill radius for the wolf reliant on distance
+    #Provide a kill radius for the wolf reliant on distance.
     def target_sheep(self, kill_radius):
-        min_dis = kill_radius
+        min_dis = kill_radius # the min dis is the kill radius parameter established.
         for sheep in self.sheep_all:
             dis = self.distance_between(sheep)
-            if dis < min_dis:
+            if dis < min_dis: #If sheep within the kill radius
                 
                 min_dis = dis
-                self.target=sheep
+                self.target=sheep # select the sheep as the wolves target
             #if dis < kill_radius:
                 #self.target = sheep
                 
+    ##Define a function for the wolf to 'eat' the sheep             
     def eat_sheep(self,sheep):
         
        
@@ -30,11 +36,15 @@ class Agent_Wolf():
         #print(len(self.sheep_all))
         if self.target in self.sheep_all:
             print("****** SHEEP EATEN!!!!!! *****")
-            self.sheep_all.remove(sheep)
+            self.sheep_all.remove(sheep) # this removes the sheep from the plot
+            
             #reset the target to None to continue random movement
             self.target = None
             print("there are" , len(self.sheep_all), "sheep left")
-                
+    
+## The move function will randomly move the wolf, albeit faster than the sheep initially 
+## when within the kill radius, the wolf will chase down the sheep.
+            
     def move(self):
         #if no sheep in sight random move
         if self.target == None:

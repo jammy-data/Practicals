@@ -1,10 +1,14 @@
 import random
+
+#Create a class for the sheep agent
 class Agent_Sheep():
+    ## Define initial functions 
     def __init__(self, agent_environment, o_agents, y, x):
         self.o_agents = o_agents
 #        self.x = random.randint(0,299)
 #        self.y = random.randint(0,299)
         self.environment = agent_environment
+        #Set the store to 0, this calculates how much the sheep has eaten 
         self.store = 0 
         self.x = x
         if (x == None):
@@ -17,7 +21,9 @@ class Agent_Sheep():
         else:
             self.y=y
         
-    
+    ## This eat function allows the agent to find the value of the square it
+    ## is standing on, and to take a value away from the environment and add 
+    ## it to self.store
     def eat(self):        
         #define name for the pixel value
             pixel_value = self.environment[self.y][self.x]
@@ -25,7 +31,9 @@ class Agent_Sheep():
 
 
             
-    #Function for movement        
+    ## Function for movement - The sheep will move in a completely random
+    ## direction. When it gets to the end of the grid space, it will appear
+    ## on the opposite end of the plot, similar to a torus.      
     def move(self):
         if random.random() < 0.5:
             self.x = (self.x + 1) % 125
@@ -37,7 +45,7 @@ class Agent_Sheep():
         else:
             self.y = (self.y - 1) % 125
     
-    #function for checking if belly is full
+    #function for checking if belly is full.
     def check_agent_full(self):
         if self.store > 100:
             full = 1
@@ -46,20 +54,23 @@ class Agent_Sheep():
         
         return full
     
-    #neighbour share
+    ## This function allows the sheep to share food with its neighbours
+    ## if the neighbours are within the 'Neighbourhood' parameter.
     def share_with_neighbours(self, neighbourhood):
         
         # Loop through the agents in self.agents
         for agent in self.o_agents:
         # Calculate the distance between self and the current other agent:
             
-            if agent != self:
-                distance = self.distance_between(agent)
-               
-                # Test code to print when sharing
-                #if distance <= neighbourhood:
-                    #print("----------")
-                    #print("agents within sharing neighbourhood")
+# =============================================================================
+#             if agent != self:
+#                 distance = self.distance_between(agent)
+#                
+#                 # Test code to print when sharing
+#                 #if distance <= neighbourhood:
+#                     #print("----------")
+#                     #print("agents within sharing neighbourhood")
+# =============================================================================
                     
                     # Sum self.store and agent.store .
                 sum_store = self.store + agent.store
@@ -73,7 +84,8 @@ class Agent_Sheep():
                     #test code to ensure grass is being shared fairly
                     #print("stores are {} and {}".format(self.store, agent.store))
                     #print("sharing " + str(distance) + " " + str (avg))
-        
+                    
+    ## This function calculates the distance between itself and other agents     
     def distance_between(self, agent):
         return (((self.x - agent.x)**2) + ((self.y - agent.y)**2))**0.5
     #create the function to display information

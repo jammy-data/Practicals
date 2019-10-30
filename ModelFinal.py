@@ -25,10 +25,10 @@ start = time.clock()
 #####                    PARAMETERS                          #####
 ##################################################################
 
-#identify the number of agents
+#identify the number of each parameter which will alter the way the model functions
 
-num_of_sheep = 20
-num_of_wolves = 2
+num_of_sheep = 30
+#num_of_wolves = 0 # un-block this to override tkinter options
 neighbourhood = 20
 kill_radius = 30
 
@@ -47,39 +47,68 @@ wolves = []
 ####        extract and parse the xy data from webpage       #####
 ##################################################################
 
-#Retrieve data from a html
+## Here I am retrieving data from a html site, and reading it in to the model ##
 
+# the r variable here retrieves the website. content variable retrieves
+# the text from the website.
 r = requests.get('http://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
 content = r.text
+
+## Plug-in beautifulsoup (see import bs4) was used to parse the webpage.
 soup = bs4.BeautifulSoup(content, 'html.parser')
 
-#Use beautifulsoup to parse the webpage and extract the x and y values
-
+#separate the xy elements
 td_ys = soup.find_all(attrs={"class" : "y"})
 td_xs = soup.find_all(attrs={"class" : "x"})
 
-#separate the xy elements into y and x co-ordinates
+num_of_wolves=0
 
-for i in range(num_of_sheep):
-    y = int(td_ys[i].text)
-    x = int(td_xs[i].text)
+## the run function describes what will happen in tkinter when the run option
+## is selected.
+def run(): 
+    selected= Lb.curselection() # find which list option has been selected
     
-##################################################################
-#####                CREATE AGENTS                           #####
-################################################################## 
+    #print(selected) TEST to see what the output is
     
-#Create sheep with this co-ordinate data
-#separate the xy elements
+    #based on the selection, I want to change the number of wolves in the model
     
-for i in range(num_of_sheep):
-    y = int(td_ys[i].text)
-    x = int(td_xs[i].text)
-    sheep.append(SheepFramework.Agent_Sheep(environment, sheep, y, x))
+    global num_of_wolves
+    if selected == (0,):
+        num_of_wolves = 0
+    if selected ==(1,):
+        num_of_wolves = 2
+    if selected ==(2,):
+        num_of_wolves = 4
+    if selected ==(3,):
+        num_of_wolves = 10
+    else:
+        pass
+ 
 
-##Create the wolves with knowledge of the sheep
     
-for i in range(num_of_wolves):
-    wolves.append(WolfFramework.Agent_Wolf(sheep))
+    ##################################################################
+    #####                CREATE AGENTS                           #####
+    ##################################################################
+    for i in range(num_of_sheep):
+        y = int(td_ys[i].text)
+        x = int(td_xs[i].text)
+        sheep.append(SheepFramework.Agent_Sheep(environment, sheep, y, x))
+
+## Create the wolves with knowledge of the sheep
+    
+    for i in range(num_of_wolves):
+        wolves.append(WolfFramework.Agent_Wolf(sheep))
+    #animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames= gen_function) #unblock to create stopping conditions    
+    animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False)
+    canvas.draw() #updated from canvas.show()
+    #to save animation use Animation.save
+
+
+
+    
+ 
+    
+
     
 ##################################################################
 #####                GETTING THE ENVIRONMENT                 #####
@@ -92,7 +121,7 @@ reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
 for row in reader: # A list of rows
     rowlist = []
     
-    #append the environment in a loop
+    #append the environment to supply a value given from the in.txt file
     
     environment.append(rowlist)
     for value in row: 
@@ -129,7 +158,10 @@ carry_on = True
 
 
 
-#Create the update function for the animation
+## Create the update function for the animation ##
+
+# This will dictate the number of times the model will run until it stops. here
+# you can decide a stopping condition if you wish.
         
 def update(frame_number):
     
@@ -142,7 +174,7 @@ def update(frame_number):
     
     
 
-    #plot the data 
+    #plot the axis along with the plot boundaries.
     
     matplotlib.pyplot.ylim(125, 0)
     matplotlib.pyplot.xlim(0, 125)
@@ -152,7 +184,9 @@ def update(frame_number):
     #####                AGENT ACTION LOOP                       #####
     ################################################################## 
     
-    ## Initiate the action loop for all sheep
+    ## Initiate the action loop for all sheep.
+    # The functions I have defined here are for the sheep to move, eat the
+    #environment and share food with their neighbours.
     
     for i in range(len(sheep)):
         sheep[i].move()
@@ -164,6 +198,8 @@ def update(frame_number):
         matplotlib.pyplot.scatter(sheep[i].x,sheep[i].y, color='white', edgecolor='black', label='sheep')
     
     ## initiate the loop for all wolves
+    # The functions I have defined here are for the wolves to target sheep,
+    # move around and eat sheep on the same grid co-ordinate.
     
     for i in range(len(wolves)):
         wolves[i].target_sheep(kill_radius)
@@ -190,6 +226,8 @@ def update(frame_number):
     
     ## If sheep have full belly model stops
     
+    # set the counter to 0. We want the counter to reach 1 when the sheep
+    # are all full, and thus stop the model.
     counter = 0   
     for i in range(len(sheep)):
         agent_full = sheep[i].check_agent_full() 
@@ -199,16 +237,10 @@ def update(frame_number):
     
     if counter == (len(sheep)):
         carry_on = False
-        print ("stopping condition")
+        #print ("stopping condition")
         
-
-#create a function to run the animation, which is called in tkinter
         
-def run(): 
     
-    animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False)
-    canvas.draw() #updated from canvas.show()
-    #to save animation use Animation.save
     
 ## Create a gen_function to dictate the conditions of the animation stopping    
 def gen_function(b = [0]):
@@ -218,59 +250,51 @@ def gen_function(b = [0]):
         yield a			# Returns control and waits next call.
         a = a + 1
         
-animation = matplotlib.animation.FuncAnimation(fig, update, repeat=False, frames= gen_function)
-# animation.save("FinalModel.gif") # this will save the animation
-#matplotlib.pyplot.show()
 
+def Stop():
+    global root
+    root.quit()
+    print('Model terminated')
 
-
-
-#create a function to kill the tkinter loop
+#create a function to kill the tkinter loop and close the window.
 def kill():  
     global root
     root.destroy()
     root.quit()
     
-    
-##################################################################
-#####                INITIATE TKINTER                        #####
-##################################################################     
-# =============================================================================
-# root = tkinter.Tk()
-# 
-# root.wm_title("Model")
-# canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
-# canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
-# menu_bar=tkinter.Menu(root)
-# root.config(menu=menu_bar)
-# #create the menubar labels
-# run_menu = tkinter.Menu(menu_bar)
-# menu_bar.add_cascade(label="Model", menu=run_menu)
-# run_menu.add_command(label="run model", command=run)
-# run_menu.add_command(label="kill", command=kill)
-# 
-# tkinter.mainloop() 
-# =============================================================================
 
-##################################################################
-#####                DISTANCE CALC                           #####
-##################################################################  
-# =============================================================================
-## set up the function to calculate point distance
-# def distance_between(agents_row_a, agents_row_b):
-#    return (((agents_row_a.x - agents_row_b.x)**2) + ((agents_row_a.y - agents_row_b.y)**2))**0.5
-# print("*"*20)
-# for i in range (0,num_of_sheep):
-#     for j in range (i+1 ,num_of_sheep):
-#         distance = distance_between(sheep[i], sheep[j])
-#         #max_distance = max(max_distance, distance)
-#         print("distance between agent", i, "and", j, distance)
-#         #print(max_distance)
-# =============================================================================
-        
-##################################################################
-#####                PRINT TIME TAKEN                        #####
-##################################################################  
-end=time.clock()
+## tkinter 
+root = tkinter.Tk()    
+root.wm_title("Model") #title of the GUI
+#Establish a canvas for the animation to be plotted on
+canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
+canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
-print("time=",str(end-start))
+#Create a listbox for the user to select an option for the model
+Lb = Listbox(root)
+Lb.insert(1, 'No Wolves')
+Lb.insert(2, 'Wolven espionage')
+Lb.insert(3, 'fifty/fifty')
+Lb.insert(4, 'onslaught')
+Lb.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
+# create a label to notify the user how they should use the model
+label= Label(root, text='Choose your model variant', justify=LEFT, foreground='blue', background= 'yellow')
+label.pack(side=tkinter.BOTTOM, fill=tkinter.BOTH)
+
+# Create buttons which can call functions. Here I have created a 'run' button
+# and a 'stop' button
+run_button= Button(root, text="Run Model", command=run)
+quit_button= Button(root, text="Stop Model", command=kill)
+run_button.configure(bg='green')
+quit_button.configure(bg='red')
+quit_button.pack(side=tkinter.BOTTOM)
+run_button.pack(side=tkinter.BOTTOM)
+
+tkinter.mainloop() 
+
+
+
+
+
+
+
