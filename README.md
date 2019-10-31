@@ -48,3 +48,10 @@ These practicals covered what I thought were the more complex programming, which
 
 The communication function is somewhat similar to the processes involved in practical 6. However the animation and GUI practicals introduced more complex code. Animation focused on plotting the functions of the agents in a 'for' loop, in its own update function. This allowed the model to run until the number of iterations had been completed, or until another stopping point had been defined and reached.
 The function of the GUI (Graphical User Interface) is to allow users to run the code and interact with the model in a more user-friendly way. Whilst building a GUI, programmers often have to be mindful that the functionality of the buttons or processes need to be user-friendly.
+
+### Final Model
+* FinalModel.py
+* SheepFramework.py
+* WolfFramework.py
+
+Within my final model I extrapolated upon the functionality introduced within the practicals, adding features such as tkinter buttons and a selection list which enables users to run a number of different model scenarios. I also took this chance to further narrate my code and explain my process.
