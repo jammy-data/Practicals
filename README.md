@@ -1,6 +1,6 @@
 # Practicals
 
-## Folder: Prac1&2
+## Folder: Prac1-2
 
 ### Practical 1 - Agent based modelling
 ### Practical 2 - Code Shrinking I
@@ -30,7 +30,7 @@ for j in range (i+1 ,num_of_agents): #i+1 so it does not count itself
 ```
 
 
-## Folder: Prac 5&6
+## Folder: Prac 5-6
 
 ### Practical 5 - Agents!
 ### Practical 6 - I/O
@@ -47,4 +47,4 @@ In these practicals I was able to define functions for the sheep eating, moving 
 These practicals covered what I thought were the more complex programming, which involved communication of information and ultimately variables between agents, animation of the model and creation of a GUI to display and run the model as a user.
 
 The communication function is somewhat similar to the processes involved in practical 6. However the animation and GUI practicals introduced more complex code. Animation focused on plotting the functions of the agents in a 'for' loop, in its own update function. This allowed the model to run until the number of iterations had been completed, or until another stopping point had been defined and reached.
-The function of the GUI (Graphical User Interface) is to allow users to run the code and interact with the model in a more user-friendly way. Whilst buildinga# a GUI, programmers often have to be mindful that the functionality of the buttons or processes need to be basic and somewhat obvious.
+The function of the GUI (Graphical User Interface) is to allow users to run the code and interact with the model in a more user-friendly way. Whilst building a GUI, programmers often have to be mindful that the functionality of the buttons or processes need to be user-friendly.
