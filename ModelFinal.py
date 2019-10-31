@@ -103,13 +103,7 @@ def run():
     canvas.draw() #updated from canvas.show()
     #to save animation use Animation.save
 
-
-
-    
  
-    
-
-    
 ##################################################################
 #####                GETTING THE ENVIRONMENT                 #####
 ##################################################################
@@ -172,8 +166,6 @@ def update(frame_number):
     
     random.shuffle(sheep)
     
-    
-
     #plot the axis along with the plot boundaries.
     
     matplotlib.pyplot.ylim(125, 0)

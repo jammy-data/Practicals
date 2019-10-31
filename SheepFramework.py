@@ -88,6 +88,7 @@ class Agent_Sheep():
     ## This function calculates the distance between itself and other agents     
     def distance_between(self, agent):
         return (((self.x - agent.x)**2) + ((self.y - agent.y)**2))**0.5
+    
     #create the function to display information
     def __str__(self):
         return '{0} - ({1}, {2})'.format(self.store, self.x, self.y)
