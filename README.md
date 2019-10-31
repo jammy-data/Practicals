@@ -50,7 +50,7 @@ The communication function is somewhat similar to the processes involved in prac
 The function of the GUI (Graphical User Interface) is to allow users to run the code and interact with the model in a more user-friendly way. Whilst building a GUI, programmers often have to be mindful that the functionality of the buttons or processes need to be user-friendly.
 
 ### Final Model
-* FinalModel.py
+* ModelFinal.py
 * SheepFramework.py
 * WolfFramework.py
 
